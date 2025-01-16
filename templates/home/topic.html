@@ -1,0 +1,16 @@
+{%extends 'index.html'%}
+{%block title%}
+{{topic.name}}
+{%endblock%}
+{%block breadcrumb%}
+<div class="col-10 offset-2 mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item fs-1">Main</li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'main'%}">Boards</a></li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'board' board.id%}">{{board.name}}</a></li>
+        <li class="breadcrumb-item fs-1 active">{{topic.subject}}</li>
+    </ol>
+</div>
+{%endblock%}
+{%block content%}
+{%endblock%}

@@ -1,0 +1,44 @@
+{%extends 'index.html'%}
+{%block title%}
+{{board.name}}
+{%endblock%}
+{%block breadcrumb%}
+<div class="col-10 offset-2 mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item fs-1">Main</li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'main'%}">Boards</a></li>
+        <li class="breadcrumb-item active fs-1">{{board.name}}</li>
+    </ol>
+</div>
+{%endblock%}
+{%block content%}
+<div class="container">
+    <h4>Topics</h4><br><br>
+    <a class="btn btn-success" href="{%url 'new_topic' board.id%}">Create New Topic</a><br><br>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Created_by</th>
+                    <th>Posts</th>
+                    <th>Viesw</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topic in board.topics.all%}
+                <tr>
+                    <td><a href="{%url 'topic' topic.board.id topic.id%}">{{topic.subject}}</a>
+                    </td>
+                    <td>{{topic.created_by}}</td>
+                    <td>{{topic.posts.count}}</td>
+                    <td>0</td>
+                    <td></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock%}

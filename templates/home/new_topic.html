@@ -1,0 +1,25 @@
+{%extends 'index.html'%}
+{%block title%}
+New Topic
+{%endblock%}
+{%block breadcrumb%}
+<div class="col-10 offset-2 mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item fs-1">Main</li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'main'%}">Boards</a></li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'board' board.id%}">{{board.name}}</a></li>
+        <li class="breadcrumb-item fs-1 active">Create New Topic</li>
+    </ol>
+</div>
+{%endblock%}
+{%block content%}
+<div class="container">
+    <form action="" method="post" novalidate>
+        {%csrf_token%}
+        <!-- {{form.as_p}} -->
+         {%include 'home/form.html'%}
+        <br>
+        <button class="btn btn-success" type="submit">Save</button>
+    </form>
+</div>
+{%endblock%}

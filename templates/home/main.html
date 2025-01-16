@@ -1,6 +1,6 @@
 {%extends 'index.html'%}
 {%block title%}
-Main
+Dr.Ali Clinic
 {%endblock%}
 {%block breadcrumb%}
 <div class="col-10 offset-2 mt-4">
@@ -23,30 +23,16 @@ Main
                 </tr>
             </thead>
             <tbody>
+                {% for board in boards%}
                 <tr>
-                    <td><a href="">Osteoporosis</a></td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>At ....</td>
+                    <td><a href="{%url 'board' board.id%}">{{board.name}}</a>
+                        <small class="text-muted d-flex">{{board.description}}</small>
+                    </td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td></td>
                 </tr>
-                <tr>
-                    <td><a href="">Osteoporosis</a></td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>At ....</td>
-                </tr>
-                <tr>
-                    <td><a href="">Osteoporosis</a></td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>At ....</td>
-                </tr>
-                <tr>
-                    <td><a href="">Osteoporosis</a></td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>At ....</td>
-                </tr>
+                {%endfor%}
             </tbody>
         </table>
     </div>
