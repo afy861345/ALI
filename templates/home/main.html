@@ -28,9 +28,15 @@ Dr.Ali Clinic
                     <td><a href="{%url 'board' board.id%}">{{board.name}}</a>
                         <small class="text-muted d-flex">{{board.description}}</small>
                     </td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td></td>
+                    <td>{{board.topics.count}}</td>
+                    <td>{{board.get_posts}}</td>
+                    {% with post=board.get_last_post%}
+                    {%if post%} 
+                    <td>by {{board.get_last_post.created_by}} at {{board.get_last_post.created_at}}</td>
+                    {%else%}
+                    <td><small class="text-muted">No posts yet</small></td>
+                    {%endif%}
+                    {%endwith%}
                 </tr>
                 {%endfor%}
             </tbody>

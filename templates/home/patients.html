@@ -1,0 +1,45 @@
+{%extends 'index.html'%}
+{%block title%}
+Patients
+{%endblock%}
+{%block breadcrumb%}
+<div class="col-10 offset-2 mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item fs-1">Main</li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'main'%}">Patients</a></li>
+    </ol>
+</div>
+{%endblock%}
+{%block content%}
+<div class="container">
+    <a class="btn btn-success my-4" href="">Add new patient</a>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>patient</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>address</th>
+                    <th>visit</th>
+                    <th>date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients%}
+                <tr>
+                    <td><a href="">{{patient.name}}</a>
+                    </td>
+                    <td>{{patient.name}}</td>
+                    <td>{{patient.age}}</td>
+                    <td>{{patient.gender}}</td>
+                    <td>{{patient.address}}</td>
+                    <td>{{patient.visits}}</td>
+                    <td>{{patient.visit_date}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock%}

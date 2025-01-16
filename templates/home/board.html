@@ -22,19 +22,19 @@
                     <th>Topic</th>
                     <th>Created_by</th>
                     <th>Posts</th>
-                    <th>Viesw</th>
-                    <th>Last Updated</th>
+                    <th>View</th>
+                    <th>Created_at</th>
                 </tr>
             </thead>
             <tbody>
-                {% for topic in board.topics.all%}
+                {% for topic in topics%}
                 <tr>
                     <td><a href="{%url 'topic' topic.board.id topic.id%}">{{topic.subject}}</a>
                     </td>
                     <td>{{topic.created_by}}</td>
-                    <td>{{topic.posts.count}}</td>
-                    <td>0</td>
-                    <td></td>
+                    <td>{{topic.comments}}</td>
+                    <td>{{topic.views}}</td>
+                    <td>{{topic.created_at}}</td>
                 </tr>
                 {%endfor%}
             </tbody>

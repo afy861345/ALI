@@ -1,0 +1,25 @@
+{%extends 'index.html'%}
+{%block title%}
+Edit post
+{%endblock%}
+{%block breadcrumb%}
+<div class="col-10 offset-2 mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item fs-1">Main</li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'main'%}">Boards</a></li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'board' post.topic.board.id%}">{{post.topic.board.name}}</a></li>
+        <li class="breadcrumb-item fs-1">{{post.message}}</li>
+        <li class="breadcrumb-item fs-1 active">Edittng</li>
+    </ol>
+</div>
+{%endblock%}
+{%block content%}
+<div class="container">
+    <form action="" method="post" novalidate>
+        {%csrf_token%}
+        {%include 'home/form.html'%}
+        <br>
+        <button class="btn btn-success" type="submit">Update</button>
+    </form>
+</div>
+{%endblock%}

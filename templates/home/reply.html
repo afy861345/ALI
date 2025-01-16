@@ -1,21 +1,28 @@
 {%extends 'index.html'%}
 {%load static%}
 {%block title%}
-{{topic.name}}
+Reply
 {%endblock%}
 {%block breadcrumb%}
 <div class="col-10 offset-2 mt-4">
     <ol class="breadcrumb">
         <li class="breadcrumb-item fs-1">Main</li>
         <li class="breadcrumb-item fs-1"><a href="{%url 'main'%}">Boards</a></li>
-        <li class="breadcrumb-item fs-1"><a href="{%url 'board' board.id%}">{{board.name}}</a></li>
-        <li class="breadcrumb-item fs-1 active">{{topic.subject}}</li>
+        <li class="breadcrumb-item fs-1"><a href="{%url 'board' topic.board.id%}">{{topic.board.name}}</a></li>
+        <li class="breadcrumb-item fs-1">{{topic.subject}}</li>
+        <li class="breadcrumb-item fs-1 active">Reply</li>
     </ol>
 </div>
 {%endblock%}
 {%block content%}
-<div class="container my-4">
-    <a class="btn btn-success" href="{%url 'reply' topic.board.id topic.id %}">Reply</a>
+<div class="container">
+    <form action="" method="post" novalidate>
+        {%csrf_token%}
+        <!-- {{form.as_p}} -->
+        {%include 'home/form.html'%}
+        <br>
+        <button class="btn btn-success mb-4" type="submit">Post</button>
+    </form>
 </div>
 <div class="container">
     {%for post in topic.posts.all%}

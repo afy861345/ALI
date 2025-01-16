@@ -10,10 +10,12 @@
 </head>
 
 <body>
+    {%block body%}
     {%include 'navbar.html'%}
     {%block breadcrumb%}
     {%endblock%}
     {%block content %}
+    {%endblock%}
     {%endblock%}
     <script src="{%static 'js/bootstrap.bundle.js'%}"></script>
 </body>
