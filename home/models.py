@@ -20,6 +20,8 @@ class Topic(models.Model):
     created_by=models.ForeignKey(User,related_name='topics',on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     views=models.PositiveIntegerField(default=0)
+    updated_by=models.ForeignKey(User,null=True,related_name='+',on_delete=models.CASCADE)
+    updated_at=models.DateTimeField(null=True)
     def __str__(self):
         return self.subject
 class Post(models.Model):
@@ -39,5 +41,12 @@ class Patients(models.Model):
     address=models.CharField(max_length=150,null=True)
     visits=models.PositiveIntegerField(default=0)
     visit_date=models.DateField(default=strftime("%Y-%m-%d"))
+    def __str__(self):
+        return self.name
+class News(models.Model):
+    name=models.CharField(max_length=150)
+    content=models.TextField(max_length=4000,null=True)
+    created_by=models.ForeignKey(User,related_name='news',on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)   
     def __str__(self):
         return self.name

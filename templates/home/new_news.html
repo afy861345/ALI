@@ -1,0 +1,18 @@
+{%extends 'index.html'%}
+{%block title%}
+New News
+{%endblock%}
+
+{%block content%}
+<div class="container">
+    <h2>Add News</h2>
+    <div class="col-6 offset-2">
+        <form action="" method="post" novalidate>
+        {%csrf_token%}
+        {%include 'home/form.html'%}
+        <br>
+        <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+</div>
+{%endblock%}
