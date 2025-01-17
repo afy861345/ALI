@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Board,Topic,Post,Patients as Patient_Model,News
+from .models import Board,Topic,Post,Patients as Patient_Model,News,Visit
 from time import strftime
 from django.contrib.auth.models import User
-from .forms import Topic_form,Post_form,Patient_form,News_form
+from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.urls import reverse_lazy
@@ -14,11 +14,12 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 #fbv
 def main(request):
     boards=Board.objects.all()
-    return render(request,'home/main.html',{'boards':boards})
+    news=News.objects.all()
+    return render(request,'home/main.html',{'boards':boards,'news':news})
 def board(request,board_id):
     board=get_object_or_404(Board,id=board_id)
     query_set=board.topics.order_by('-created_at').annotate(comments=Count('posts'))
-    paginator=Paginator(query_set,1)
+    paginator=Paginator(query_set,6)
     page=request.GET.get('page',1)
     try:
         topic_post_count=paginator.page(page)
@@ -75,26 +76,33 @@ def reply(request,board_id,topic_id):
 
 #cbv
 # patients
-# class New_visit(View):
-#     def render(self,request,form):
-#         return render(request,"home/new_visit.html",{'form':form})
-#     def post(self, request,**kwargs):
-#         id=self.kwargs['patient_id']
-#         patient=get_object_or_404(Patient_Model,pk=id)
-#         if request.method=="POST":
-#             form=Visit_form(request.POST)
-#             if form.is_valid():
-#                 visits=Visit.objects.all()
-#                 for visit in visits:
-#                     if visit:
-#                         print(1)
-#                         return redirect('main')
-#                 else:
-#                     print(0)
-#         return self.render(request,form)
-#     def get(self,request,**kwargs):
-#         form=Visit_form()
-#         return self.render(request,form)
+class New_visit(View):
+    
+
+    def render(self,request,form):
+        return render(request,"home/new_visit.html",{'form':form})
+    def post(self, request,**kwargs):
+        date=strftime("%Y-%m-%d")
+        id=self.kwargs['patient_id']
+        patient=get_object_or_404(Patient_Model,pk=id)
+        try:
+            visit=Visit.objects.get(date=date)
+        except Visit.DoesNotExist:
+            visit=None
+        if request.method=="POST":
+            form=Visit_form(request.POST)
+            if form.is_valid():
+                    if visit is None:
+                        new_visit=form.save()
+                        new_visit.patient.add(patient)
+                        return redirect('patient',patient.id)
+                    else:
+                        visit.patient.add(patient)
+                        return redirect('patient',patient.id)
+        return self.render(request,form)
+    def get(self,request,**kwargs):
+        form=Visit_form()
+        return self.render(request,form)
 # gbv
 @method_decorator(login_required,name='dispatch')
 class Add_Patient(CreateView):

@@ -44,12 +44,12 @@ Dr.Ali Clinic
     </div>
 
     
-<h4>News</h4>
+<p class="my-4 fs-1">News</p>
 <div class="container">
-    <p><strong><a href="">Lorem</a></strong> ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam repellat quidem neque sit quasi saepe pariatur quod? Nihil cumque exercitationem aspernatur doloremque, molestias repellat? Perspiciatis excepturi illo vel voluptas saepe?</p>
-    <p><strong><a href="">Lorem</a></strong> ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam repellat quidem neque sit quasi saepe pariatur quod? Nihil cumque exercitationem aspernatur doloremque, molestias repellat? Perspiciatis excepturi illo vel voluptas saepe?</p>
-    <p><strong><a href="">Lorem</a></strong> ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam repellat quidem neque sit quasi saepe pariatur quod? Nihil cumque exercitationem aspernatur doloremque, molestias repellat? Perspiciatis excepturi illo vel voluptas saepe?</p>
-
+{%for item in news%}
+<p><strong>{{item.name}}</strong></p>
+<p>{{item.content}}</p>
+{%endfor%}
 </div>
     
 </div>

@@ -40,9 +40,12 @@ class Patients(models.Model):
     gender=models.CharField(max_length=50)
     address=models.CharField(max_length=150,null=True)
     visits=models.PositiveIntegerField(default=0)
-    visit_date=models.DateField(default=strftime("%Y-%m-%d"))
+    visit_date=models.DateField(default=strftime("%Y-%m-%d"),null=True)
     def __str__(self):
         return self.name
+class Visit(models.Model):
+    date=models.DateField(default=strftime("%Y-%m-%d"))
+    patient=models.ManyToManyField(Patients,related_name='visit')
 class News(models.Model):
     name=models.CharField(max_length=150)
     content=models.TextField(max_length=4000,null=True)
