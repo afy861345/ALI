@@ -1,0 +1,22 @@
+{%extends 'index.html'%}
+{%block title%}
+Add Media
+{%endblock%}
+{%block breadcrumb%}
+<div class="col-10 offset-2 mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item fs-1">Main</li>
+        <li class="breadcrumb-item fs-1"><a href="#">Patients</a></li>
+    </ol>
+</div>
+{%endblock%}
+{%block content%}
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        {%include 'home/form.html'%}
+        <br>
+        <input type="submit" value="Upload" name="submit">
+    </form>
+</div>
+{%endblock%}

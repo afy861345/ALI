@@ -1,5 +1,5 @@
 from django import forms
-from .models import Topic,Post,Patients,News,Visit
+from .models import Topic,Post,Patients,News,Visit,Photo
 class Topic_form(forms.ModelForm):
     message=forms.CharField(max_length=4000,widget=forms.Textarea(
         attrs={'rows':'10',"placeholder":"Write Something"}
@@ -22,10 +22,17 @@ class Patient_form(forms.ModelForm):
             'name','age','gender','address','visits','visit_date'
         ]
 class Visit_form(forms.ModelForm):
+    
     class Meta:
         model=Visit
         fields=[
             'date'
+        ]
+class Media_form(forms.ModelForm):
+    class Meta:
+        model=Photo
+        fields=[
+            'images'
         ]
 class News_form(forms.ModelForm):
     name=forms.CharField(widget=forms.TextInput(

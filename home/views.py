@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Board,Topic,Post,Patients as Patient_Model,News,Visit
+from .models import Board,Topic,Post,Patients as Patient_Model,News,Visit,Photo
 from time import strftime
 from django.contrib.auth.models import User
-from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form
+from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form,Media_form
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.urls import reverse_lazy
@@ -77,8 +77,6 @@ def reply(request,board_id,topic_id):
 #cbv
 # patients
 class New_visit(View):
-    
-
     def render(self,request,form):
         return render(request,"home/new_visit.html",{'form':form})
     def post(self, request,**kwargs):
@@ -91,14 +89,19 @@ class New_visit(View):
             visit=None
         if request.method=="POST":
             form=Visit_form(request.POST)
-            if form.is_valid():
-                    if visit is None:
-                        new_visit=form.save()
-                        new_visit.patient.add(patient)
-                        return redirect('patient',patient.id)
-                    else:
+            if form.is_valid():  
+                if visit is None:
+                    new_visit=form.save()
+                    new_visit.patient.add(patient)
+                    patient.visits +=1
+                    patient.save()
+                    return redirect('patient',patient.id)
+                else:
+                    if visit not in patient.visit.all():
+                        patient.visits +=1
+                        patient.save()
                         visit.patient.add(patient)
-                        return redirect('patient',patient.id)
+                    return redirect('patient',patient.id)
         return self.render(request,form)
     def get(self,request,**kwargs):
         form=Visit_form()
@@ -142,5 +145,20 @@ class New_news(CreateView):
         news.created_by=self.request.user
         news.save()
         return redirect("main")
+def add_media(request,patient_id):
+    patient=get_object_or_404(Patient_Model,pk=patient_id)
+    if request.method=="POST":
+        form=Media_form(request.POST,request.FILES)#should add post 
+        if form.is_valid():
+            media=form.save(commit=False)
+            media.patient=patient
+            media.added_at=timezone.now()
+            media.save()
+            return redirect('patient',patient.id)
 
-    
+    else:
+        form=Media_form()
+    return render(request,'home/add_media.html',{'form':form})
+  
+       
+     

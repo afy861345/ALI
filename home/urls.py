@@ -12,5 +12,6 @@ urlpatterns = [
     path('patients/<int:patient_id>/',views.get_patient,name='patient'),
     path('patients/<int:patient_id>/new/',views.New_visit.as_view(),name='new_visit'),
     path('patients/new_news/',views.New_news.as_view(),name='new_news'),
+    path('patients/<int:patient_id>/add_media',views.add_media,name='add_media'),
 
 ]

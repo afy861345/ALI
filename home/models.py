@@ -53,3 +53,7 @@ class News(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)   
     def __str__(self):
         return self.name
+class Photo(models.Model):
+    images=models.ImageField(upload_to="photos/%Y/%m/%d",null=True)
+    patient=models.ForeignKey(Patients,related_name='images',on_delete=models.CASCADE)
+    add_at=models.DateField(default=strftime("%Y-%m-%d"))
