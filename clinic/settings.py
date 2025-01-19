@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-bjv6r=!6%*b-8^bcfzovb3b3jokq561ny(6elu5j0o@xleemgn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app','127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','192.168.0.103','192.168.0.131']
 
 
 # Application definition
@@ -77,15 +77,15 @@ WSGI_APPLICATION = 'clinic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-DATABASES={
-    'default':dj_database_url.config(default=DATABASE_URL,conn_max_age=1800)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+# DATABASES={
+#     'default':dj_database_url.config(default=DATABASE_URL,conn_max_age=1800)
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

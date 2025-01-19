@@ -1,0 +1,20 @@
+{%extends 'index.html'%}
+{%block title%}
+Delete Media
+{%endblock%}
+
+{%block content%}
+<div class="col-8 offset-2 mt-4">
+    <p class="alert alert-danger">Do you want to delete : {{photo.images}}?</p>
+    <form action="" method="post">
+        {%csrf_token%}
+        <br>
+        <button class="btn btn-warning" type="submit" onclick="del()">Confirm</button>
+    </form>
+</div>
+<script>
+    function del(){
+        alert("{{photo.images}} was deleted successfully")
+    }
+</script>
+{%endblock%}

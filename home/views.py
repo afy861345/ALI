@@ -6,7 +6,7 @@ from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form,Media_
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.urls import reverse_lazy
-from django.views.generic import View,CreateView,UpdateView,ListView
+from django.views.generic import View,CreateView,UpdateView,ListView,DeleteView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
@@ -159,6 +159,32 @@ def add_media(request,patient_id):
     else:
         form=Media_form()
     return render(request,'home/add_media.html',{'form':form})
-  
+class Edit_media(UpdateView):
+    model=Photo
+    form_class=Media_form
+    pk_url_kwarg='photo_id'
+    context_object_name="photo"
+    # success_url=reverse_lazy('main')
+    template_name="home/edit_media.html"
+    
+    def form_valid(self, form):
+        photo=self.get_object()
+        photo_id=photo.id
+        patient=photo.patient
+        new_photo=form.save(commit=False)
+        new_photo.patient=patient
+        new_photo.added_at=timezone.now()
+        new_photo.save()
+        return redirect('patient',patient.id)
+        #or
+        # photo=self.get_queryset().first()
+        # patient=photo.patient
        
-     
+def delete_media(request,patient_id,photo_id):
+    photo=get_object_or_404(Photo,pk=photo_id)
+    if request.method=='POST':
+        photo.delete()
+        return redirect('patient',patient_id)
+    return render(request,'home/delete_media.html',{'photo':photo})
+    
+   
