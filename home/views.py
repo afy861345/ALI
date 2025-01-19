@@ -186,5 +186,19 @@ def delete_media(request,patient_id,photo_id):
         photo.delete()
         return redirect('patient',patient_id)
     return render(request,'home/delete_media.html',{'photo':photo})
-    
-   
+class Edit_patient(UpdateView):
+    model=Patient_Model
+    form_class=Patient_form
+    context_object_name='patient'
+    # success_url=reverse_lazy('main')
+    pk_url_kwarg='patient_id'
+    template_name='home/update_patient.html'
+    def form_valid(self, form):
+        patient=form.save()
+        return redirect('patients')
+class Delete_patient(DeleteView):
+    model=Patient_Model
+    pk_url_kwarg='patient_id'
+    success_url=reverse_lazy('patients')
+    context_object_name='patient'
+    template_name='home/delete_patient.html'

@@ -20,12 +20,13 @@ Patients
         <table class="table">
             <thead>
                 <tr>
-                    <th>patient</th>
-                    <th>age</th>
-                    <th>gender</th>
-                    <th>address</th>
-                    <th>visit</th>
-                    <th>date</th>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Visit</th>
+                    <th>Date</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,12 @@ Patients
                     <td>{{patient.address}}</td>
                     <td>{{patient.visits}}</td>
                     <td>{{patient.visit_date}}</td>
+                    <td>
+                        <div class="row">
+                            <a class="mb-4" href="{%url 'edit_patient' patient.id%}">Update</a>
+                            <a class="mb-4" href="{%url 'delete_patient' patient.id%}">Delete</a>
+                        </div>
+                    </td>
                 </tr>
                 {%endfor%}
             </tbody>
