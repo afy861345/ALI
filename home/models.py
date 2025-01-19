@@ -55,5 +55,7 @@ class News(models.Model):
         return self.name
 class Photo(models.Model):
     images=models.ImageField(upload_to="photos/%Y/%m/%d",null=True)
-    patient=models.ForeignKey(Patients,related_name='images',on_delete=models.CASCADE)
+    file=models.FileField(upload_to='pdfs/%Y/%m/%d',null=True)
+    patient=models.ForeignKey(Patients,related_name='files',on_delete=models.CASCADE)
+    visit=models.ForeignKey(Visit,related_name='files',null=True,on_delete=models.CASCADE)
     add_at=models.DateField(default=strftime("%Y-%m-%d"))

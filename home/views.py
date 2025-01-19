@@ -88,20 +88,24 @@ class New_visit(View):
         except Visit.DoesNotExist:
             visit=None
         if request.method=="POST":
-            form=Visit_form(request.POST)
-            if form.is_valid():  
+            form=Visit_form(request.POST,request.FILES)
+            file=request.FILES.get('file')
+            image=request.FILES.get('image')
+            # file=form.cleaned_data.get('file')#not used because it need form.save()
+            if form.is_valid():
                 if visit is None:
                     new_visit=form.save()
                     new_visit.patient.add(patient)
                     patient.visits +=1
                     patient.save()
-                    return redirect('patient',patient.id)
+                    photo=Photo.objects.create(images=image,file=file,patient=patient,visit=new_visit)
                 else:
                     if visit not in patient.visit.all():
                         patient.visits +=1
                         patient.save()
                         visit.patient.add(patient)
-                    return redirect('patient',patient.id)
+                        photo=Photo.objects.create(images=image,file=file,patient=patient,visit=visit)
+                return redirect('patient',patient.id)
         return self.render(request,form)
     def get(self,request,**kwargs):
         form=Visit_form()
@@ -146,12 +150,15 @@ class New_news(CreateView):
         news.save()
         return redirect("main")
 def add_media(request,patient_id):
+    date=strftime("%Y-%m-%d")
     patient=get_object_or_404(Patient_Model,pk=patient_id)
+    visit=get_object_or_404(Visit,date=date,patient__id=patient_id)#to go from son __
     if request.method=="POST":
-        form=Media_form(request.POST,request.FILES)#should add post 
+        form=Media_form(request.POST,request.FILES)#should add post & files
         if form.is_valid():
             media=form.save(commit=False)
             media.patient=patient
+            media.visit=visit
             media.added_at=timezone.now()
             media.save()
             return redirect('patient',patient.id)
@@ -202,3 +209,16 @@ class Delete_patient(DeleteView):
     success_url=reverse_lazy('patients')
     context_object_name='patient'
     template_name='home/delete_patient.html'
+class Delete_news(DeleteView):
+    model=News
+    pk_url_kwarg='news_id'
+    success_url=reverse_lazy('main')
+    context_object_name='news'
+    template_name='home/delete_news.html'
+
+class Edit_news(UpdateView):
+    model=News
+    fields=['name','content']
+    pk_url_kwarg='news_id'
+    success_url=la=reverse_lazy('main')
+    template_name='home/edit_news.html'
