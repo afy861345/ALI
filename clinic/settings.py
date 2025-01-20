@@ -132,7 +132,7 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='media/'
-pdfmetrics.registerFont(TTFont('Arabic',os.path.join(BASE_DIR,MEDIA_ROOT,'29ltbukraregular.ttf')))
+# pdfmetrics.registerFont(TTFont('Arabic',os.path.join(BASE_DIR,MEDIA_ROOT,'29ltbukraregular.ttf')))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL="main"
