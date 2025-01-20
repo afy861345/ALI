@@ -17,7 +17,7 @@ Patient
             <a class="my-4 text-success fs-4" href="{%url 'new_visit' patient.id%}">Add new visit</a>
         </div>
         <div class="col-4">
-            <a class="my-4 text-secondary fs-4" href="">Make new Pill</a>
+            <a class="my-4 text-secondary fs-4" href="{%url 'make_pill' patient.id%}">Make new Pill</a>
         </div>
     </div>
     <div>
@@ -53,9 +53,9 @@ Patient
                 <div class="col-6">
                     <!-- should ad if to prevent photo has no immages -->
                     {%if photo.images%}
-                    <a href=""><img class="w-75" src="{{photo.images.url}}" alt="{{photo.add_at}}"></a>
+                    <a href="{%url 'download_image' patient.id %}?path={{photo.images}}"><img class="w-75" src="{{photo.images.url}}" alt="{{photo.add_at}}"></a>
                     {%endif%}
-                    <a href="">{{photo.file}}</a>
+                    <a href="{%url 'download_file' patient.id %}?path={{photo.file}}">{{photo.file}}</a>
                 </div>
                 <div class="col-4 text-muted">
                     {{photo.add_at}}

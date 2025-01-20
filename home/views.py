@@ -239,46 +239,46 @@ class Edit_news(UpdateView):
     pk_url_kwarg='news_id'
     success_url=la=reverse_lazy('main')
     template_name='home/edit_news.html'
-# def create_pill(request,patient_id):
-#     # date=strftime("%Y-%m-%d")
-#     patient=get_object_or_404(Patient_Model,pk=patient_id)
-#     if request.method=='POST':
-#         date=request.POST.get('date')
-#         patient_path=f"{patient.name}-{date}.pdf"
-#         path=os.path.join('media/pdfs',patient_path)
-#         c=canvas.Canvas(path,pagesize=A5)
-#         c=clinic_temp(c)
-#         name=request.POST.get('name')
-#         age=request.POST.get('age')
-#         gender=request.POST.get('gender')
-#         item1=request.POST.get('item1')
-#         item2=request.POST.get('item2')
-#         item3=request.POST.get('item3')
-#         item4=request.POST.get('item4')
-#         item5=request.POST.get('item5')
-#         items=[item1,item2,item3,item4,item5]
-#         c.setFillColor("red")
-#         c.setFont("Arabic",12)#come from pdfmetrics in setting
-#         c.drawString(3*inch,5.1*inch,convert(name))
-#         c.drawString(0.1*inch,5.1*inch,convert(date))
-#         c.drawString(4*inch,4.8*inch,convert(age))
-#         c.drawString(0.1*inch,4.8*inch,convert(gender))
-#         y=4*inch
-#         for item in items:
-#             c.drawString(0.1*inch,y,f"{items.index(item)+1} - {item}")
-#             y-=30
-#         c.showPage()
-#         c.save()
-#     return render (request,'home/make_pill.html',{'patient':patient})
-# def download_file(request,patient_id):
-#     path=request.GET['path']
-#     file_path = os.path.join(settings.MEDIA_ROOT,path)
-#     if os.path.exists(file_path):
-#         return FileResponse(open(file_path,'rb'),content_type='application/pdf',as_attachment=True)
-# def download_image(request,patient_id):
-#     path=request.GET['path']
-#     file_path = os.path.join(settings.MEDIA_ROOT,path)
-#     if os.path.exists(file_path):
-#         return FileResponse(open(file_path,'rb'),content_type='application/pdf',as_attachment=True)
+def create_pill(request,patient_id):
+    # date=strftime("%Y-%m-%d")
+    patient=get_object_or_404(Patient_Model,pk=patient_id)
+    if request.method=='POST':
+        date=request.POST.get('date')
+        patient_path=f"{patient.name}-{date}.pdf"
+        path=os.path.join('media/pdfs',patient_path)
+        c=canvas.Canvas(path,pagesize=A5)
+        c=clinic_temp(c)
+        name=request.POST.get('name')
+        age=request.POST.get('age')
+        gender=request.POST.get('gender')
+        item1=request.POST.get('item1')
+        item2=request.POST.get('item2')
+        item3=request.POST.get('item3')
+        item4=request.POST.get('item4')
+        item5=request.POST.get('item5')
+        items=[item1,item2,item3,item4,item5]
+        c.setFillColor("red")
+        c.setFont("Arabic",12)#come from pdfmetrics in setting
+        c.drawString(3*inch,5.1*inch,convert(name))
+        c.drawString(0.1*inch,5.1*inch,convert(date))
+        c.drawString(4*inch,4.8*inch,convert(age))
+        c.drawString(0.1*inch,4.8*inch,convert(gender))
+        y=4*inch
+        for item in items:
+            c.drawString(0.1*inch,y,f"{items.index(item)+1} - {item}")
+            y-=30
+        c.showPage()
+        c.save()
+    return render (request,'home/make_pill.html',{'patient':patient})
+def download_file(request,patient_id):
+    path=request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT,path)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path,'rb'),content_type='application/pdf',as_attachment=True)
+def download_image(request,patient_id):
+    path=request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT,path)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path,'rb'),content_type='application/pdf',as_attachment=True)
     
     
