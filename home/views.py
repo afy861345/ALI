@@ -4,11 +4,11 @@ from .models import Board,Topic,Post,Patients as Patient_Model,News,Visit,Photo
 from time import strftime
 import os
 from django.conf import settings
-# from reportlab.pdfgen import canvas
-# from arabic import convert
-# from clinic_bill import clinic_temp
-# from reportlab.lib.units import inch,mm
-# from reportlab.lib.pagesizes import A5
+from reportlab.pdfgen import canvas
+from arabic import convert
+from clinic_bill import clinic_temp
+from reportlab.lib.units import inch,mm
+from reportlab.lib.pagesizes import A5
 from django.contrib.auth.models import User
 from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form,Media_form
 from django.contrib.auth.decorators import login_required
