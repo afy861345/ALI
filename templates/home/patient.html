@@ -11,8 +11,15 @@ Patient
 </div>
 {%endblock%}
 {%block content%}
-<div class="container w-75">
-    <a class="my-4 text-success fs-4" href="{%url 'new_visit' patient.id%}">Add new visit</a>
+<div class="container">
+    <div class="row justify-content-between my-4">
+        <div class="col-4">
+            <a class="my-4 text-success fs-4" href="{%url 'new_visit' patient.id%}">Add new visit</a>
+        </div>
+        <div class="col-4">
+            <a class="my-4 text-secondary fs-4" href="{%url 'make_pill' patient.id%}">Make new Pill</a>
+        </div>
+    </div>
     <div>
         <table class="table">
             <thead>
@@ -38,28 +45,28 @@ Patient
         </table>
     </div>
     <a href="{%url 'add_media' patient.id %}">Add Files</a>
-        
-        {%for photo in patient.files.all%}
-        <div class="card my-5">
-            <div class="card-body mb-4">
-                <div class="row justify-content-between">
-                    <div class="col-6">
-                        <!-- should ad if to prevent photo has no immages -->
-                        {%if photo.images%}
-                        <a href=""><img class="w-75" src="{{photo.images.url}}" alt="{{photo.add_at}}"></a>
-                        {%endif%}
-                        <a href="">{{photo.file}}</a>
-                    </div>
-                    <div class="col-2 text-muted">
-                        {{photo.add_at}}
-                        <br>
-                        <a href="{%url 'edit_media' patient.id photo.id%}">Edit</a>
-                    </div>
-                    
-                    
+
+    {%for photo in patient.files.all%}
+    <div class="card">
+        <div class="card-body mb-4">
+            <div class="row justify-content-between">
+                <div class="col-6">
+                    <!-- should ad if to prevent photo has no immages -->
+                    {%if photo.images%}
+                    <a href="{%url 'download_image' patient.id %}?path={{photo.images}}"><img class="w-75" src="{{photo.images.url}}" alt="{{photo.add_at}}"></a>
+                    {%endif%}
+                    <a href="{%url 'download_file' patient.id %}?path={{photo.file}}">{{photo.file}}</a>
                 </div>
+                <div class="col-4 text-muted">
+                    {{photo.add_at}}
+                    <br>
+                    <a href="{%url 'edit_media' patient.id photo.id%}">Edit</a>
+                </div>
+
+
             </div>
-        
+        </div>
+
     </div>
     {%endfor%}
 </div>

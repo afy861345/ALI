@@ -1,6 +1,14 @@
 from django.shortcuts import render,redirect,get_object_or_404
+from django.http import FileResponse,HttpResponse
 from .models import Board,Topic,Post,Patients as Patient_Model,News,Visit,Photo
 from time import strftime
+import os
+from django.conf import settings
+from reportlab.pdfgen import canvas
+from arabic import convert
+from clinic_bill import clinic_temp
+from reportlab.lib.units import inch,mm
+from reportlab.lib.pagesizes import A5
 from django.contrib.auth.models import User
 from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form,Media_form
 from django.contrib.auth.decorators import login_required
@@ -11,7 +19,8 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 # Create your views here.
-#fbv
+#
+
 def main(request):
     boards=Board.objects.all()
     news=News.objects.all()
@@ -167,6 +176,7 @@ def add_media(request,patient_id):
         form=Media_form()
     return render(request,'home/add_media.html',{'form':form})
 class Edit_media(UpdateView):
+
     model=Photo
     form_class=Media_form
     pk_url_kwarg='photo_id'
@@ -175,9 +185,11 @@ class Edit_media(UpdateView):
     template_name="home/edit_media.html"
     
     def form_valid(self, form):
+        date=strftime("%Y-%m-%d")
         photo=self.get_object()
         photo_id=photo.id
         patient=photo.patient
+        visit=get_object_or_404(Visit,date=date,patient__id=patient.id)
         new_photo=form.save(commit=False)
         new_photo.patient=patient
         new_photo.added_at=timezone.now()
@@ -189,10 +201,15 @@ class Edit_media(UpdateView):
        
 def delete_media(request,patient_id,photo_id):
     photo=get_object_or_404(Photo,pk=photo_id)
+    delete_choice=request.GET.get('choice')
     if request.method=='POST':
-        photo.delete()
+        if delete_choice=='image':
+            photo.images.delete()
+        else:
+            photo.file.delete()
+        
         return redirect('patient',patient_id)
-    return render(request,'home/delete_media.html',{'photo':photo})
+    return render(request,'home/delete_media.html',{'photo':photo,'choice':delete_choice})
 class Edit_patient(UpdateView):
     model=Patient_Model
     form_class=Patient_form
@@ -222,3 +239,46 @@ class Edit_news(UpdateView):
     pk_url_kwarg='news_id'
     success_url=la=reverse_lazy('main')
     template_name='home/edit_news.html'
+def create_pill(request,patient_id):
+    # date=strftime("%Y-%m-%d")
+    patient=get_object_or_404(Patient_Model,pk=patient_id)
+    if request.method=='POST':
+        date=request.POST.get('date')
+        patient_path=f"{patient.name}-{date}.pdf"
+        path=os.path.join('media/pdfs',patient_path)
+        c=canvas.Canvas(path,pagesize=A5)
+        c=clinic_temp(c)
+        name=request.POST.get('name')
+        age=request.POST.get('age')
+        gender=request.POST.get('gender')
+        item1=request.POST.get('item1')
+        item2=request.POST.get('item2')
+        item3=request.POST.get('item3')
+        item4=request.POST.get('item4')
+        item5=request.POST.get('item5')
+        items=[item1,item2,item3,item4,item5]
+        c.setFillColor("red")
+        c.setFont("Arabic",12)#come from pdfmetrics in setting
+        c.drawString(3*inch,5.1*inch,convert(name))
+        c.drawString(0.1*inch,5.1*inch,convert(date))
+        c.drawString(4*inch,4.8*inch,convert(age))
+        c.drawString(0.1*inch,4.8*inch,convert(gender))
+        y=4*inch
+        for item in items:
+            c.drawString(0.1*inch,y,f"{items.index(item)+1} - {item}")
+            y-=30
+        c.showPage()
+        c.save()
+    return render (request,'home/make_pill.html',{'patient':patient})
+def download_file(request,patient_id):
+    path=request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT,path)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path,'rb'),content_type='application/pdf',as_attachment=True)
+def download_image(request,patient_id):
+    path=request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT,path)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path,'rb'),content_type='application/pdf',as_attachment=True)
+    
+    

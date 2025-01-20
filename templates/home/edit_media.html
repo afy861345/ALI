@@ -4,7 +4,7 @@
 Add Media
 {%endblock%}
 {%block breadcrumb%}
-<div class="col-10 offset-2 mt-4">
+<div class="col-12 offset-1 mt-4">
     <ol class="breadcrumb">
         <li class="breadcrumb-item fs-1">Main</li>
         <li class="breadcrumb-item fs-1"><a href="{%url 'patients'%}">Patients</a></li>
@@ -13,26 +13,36 @@ Add Media
 </div>
 {%endblock%}
 {%block content%}
-<div class="col-6 offset-2 mt-4">
-    <div class="row">
-        <div class="col-10">
-    <form action="" method="post" enctype="multipart/form-data">
-        {%csrf_token%}
-        {%include 'home/form.html'%}
-        <br>
-        <input  type="submit" value="Upload" name="submit" onclick="edit()">
-    </form>
-    </div>
-    <div class="col-2">
-        <a href="{%url 'delete_media' photo.patient.id photo.id%}">Delete</a>
-    </div>
-    </div>
-    
-</div>
+        <div class="col-10 offset-1">
+            <form action="" method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+                {%include 'home/form.html'%}
+                <br>
+                <input type="submit" value="Upload" name="submit" onclick="edit()"><br><br>
+                Image <input type="checkbox" name="image1" id="image1" value="image">
+                File <input type="checkbox" name="file" id="file1" value="file"><br><br>
+            <a id="link1" href="{%url 'delete_media' photo.patient.id photo.id%}" onclick="myfun()">Delete</a>
+        </form>
+        </div>
 <script>
-     function edit(){
+    function myfun(){
+        var link=document.getElementById('link1')
+        var image=document.getElementById('image1');
+        var file=document.getElementById('file1');
+        
+        if(image.checked==true){
+            link1.href+="?choice=image"
+            
+        }
+        else if(file.checked==true){
+            link1.href+="?choice=file"
+            
+        }
+        
+    };
+    function edit() {
         alert("updated successfully")
-     }
-     
+    }
+
 </script>
 {%endblock%}

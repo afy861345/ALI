@@ -14,11 +14,14 @@ urlpatterns = [
     path('patients/new_news/',views.New_news.as_view(),name='new_news'),
     path('news/<int:news_id>/delete_news/',views.Delete_news.as_view(),name='delete_news'),
     path('news/<int:news_id>/edit_news/',views.Edit_news.as_view(),name='edit_news'),
-    path('patients/<int:patient_id>/edit',views.Edit_patient.as_view(),name='edit_patient'),
-    path('patients/<int:patient_id>/delete',views.Delete_patient.as_view(),name='delete_patient'),
-    path('patients/<int:patient_id>/add_media',views.add_media,name='add_media'),
-    path('patients/<int:patient_id>/<int:photo_id>/edit_media',views.Edit_media.as_view(),name='edit_media'),
-    path('patients/<int:patient_id>/<int:photo_id>/delete',views.delete_media,name='delete_media'),
+    path('patients/<int:patient_id>/edit/',views.Edit_patient.as_view(),name='edit_patient'),
+    path('patients/<int:patient_id>/delete/',views.Delete_patient.as_view(),name='delete_patient'),
+    path('patients/<int:patient_id>/add_media/',views.add_media,name='add_media'),
+    path('patients/<int:patient_id>/<int:photo_id>/edit_media/',views.Edit_media.as_view(),name='edit_media'),
+    path('patients/<int:patient_id>/<int:photo_id>/delete/',views.delete_media,name='delete_media'),
+    path('patients/<int:patient_id>/make_pill/',views.create_pill,name='make_pill'),
+    path('patients/download_file/<int:patient_id>/',views.download_file,name='download_file'),
+    path('patients/download_image/<int:patient_id>/',views.download_image,name='download_image'),
 
 
 ]

@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+pdfmetrics.registerFont(TTFont('Arabic',os.path.join(BASE_DIR,'29ltbukraregular.ttf')))
 
 DATABASE_URL="postgresql://postgres:AGMpJFOMOQmpeNFFPiztykqoybKZxwoO@roundhouse.proxy.rlwy.net:35242/railway"
 # Quick-start development settings - unsuitable for production
