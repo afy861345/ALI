@@ -35,7 +35,10 @@ ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','192.168.0.103','192.168.0.131','afy8
 
 INSTALLED_APPS = [
     'grappelli',
-    'django.contrib.admin',
+    # 'django.contrib.admin',#REPLACED BY:BELOW
+
+    'hide_admin.apps.HideAdminConfig',#this hide admin at all except superuser
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

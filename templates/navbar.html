@@ -25,8 +25,13 @@
             <a class="nav-link" href="{%url 'signup'%}">Register New</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{%url 'patients'%}">Admin Panel</a>
+            <a class="nav-link" href="{%url 'patients'%}">Patients Panel</a>
           </li>
+          {%if request.user.is_superuser%}
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/">Admin Panel</a>
+          </li>
+          {%endif%}
           {%else%}
           <li class="nav-item">
             <a class="nav-link" href="{%url 'login'%}">Login</a>

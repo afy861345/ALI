@@ -16,7 +16,17 @@ Login
         <br>
         <button class="btn btn-success" type="submit">Login</button>
     </form>
+    <br>
+    <div>
+        {%for message in messages%}
+        {%if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+        <p id="terminated-alert" class="alert alert-success">{{message}}</p>
+        {%endif%}
+        {%endfor%}
+    </div>
 </div>
+
+
 <div class="col-6 offset-3">
     <small class="text-muted">You not have account !<a href="{%url 'signup'%}">Register</a></a></small>
 </div>

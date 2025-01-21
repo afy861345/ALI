@@ -4,6 +4,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from.forms import User_form
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 # Create your views here.
@@ -14,13 +15,14 @@ def logout(request):
     return redirect('main')
 def signup(request):
     if request.method=="POST":
-        form=(request.POST)
+        
         form=User_form(request.POST)
         # form=UserCreationForm(request.POST)
         if form.is_valid():
             user=form.save()
             auth_login(request,user)
-            return redirect('main')
+            messages.success(request,'You are Registered Successfully')
+            return redirect('login')
     else:
         form=User_form()
     return render(request,"account/signup.html",{'form':form})
