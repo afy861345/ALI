@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','192.168.0.103','192.168.0.131','afy8
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'account',
     'home',
     'widget_tweaks',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +134,7 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='media/'
+#font arabic in reportlab
 pdfmetrics.registerFont(TTFont('Arabic',os.path.join(BASE_DIR,MEDIA_ROOT,'29ltbukraregular.ttf')))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

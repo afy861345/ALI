@@ -22,7 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('account.urls')),
     path('',include('home.urls')),
+    path('grappelli',include('grappelli.urls'))
     
 ]
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
