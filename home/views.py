@@ -109,12 +109,15 @@ class New_visit(View):
                     patient.visits +=1
                     patient.save()
                     photo=Photo.objects.create(images=image,file=file,patient=patient,visit=new_visit,add_at=date)
+                    return redirect('patient',patient.id)
                 else:
                     if visit not in patient.visit.all():
                         patient.visits +=1
                         patient.save()
                         visit.patient.add(patient)
                         photo=Photo.objects.create(images=image,file=file,patient=patient,visit=visit,add_at=date)
+                    photo=Photo.objects.create(images=image,file=file,patient=patient,visit=visit,add_at=date)
+                    return redirect('main')
                 return redirect('patient',patient.id)
         return self.render(request,form)
     def get(self,request,**kwargs):
@@ -226,6 +229,17 @@ def delete_media(request,patient_id,photo_id):
         
         return redirect('patient',patient_id)
     return render(request,'home/delete_media.html',{'photo':photo,'choice':delete_choice})
+class Delete_entire_media(DeleteView):
+    
+    model=Photo
+    pk_url_kwarg='photo_id'
+    context_object_name='photo'
+    template_name='home/delete_entire_media.html'
+    def get_success_url(self):
+        # print(self.kwargs['patient_id'])
+        # print(self.kwargs['photo_id'])
+        patient_id=self.kwargs['patient_id']
+        return reverse_lazy('patient',kwargs={'patient_id':self.kwargs.get('patient_id')})
 class Edit_patient(UpdateView):
     model=Patient_Model
     form_class=Patient_form

@@ -17,6 +17,7 @@ urlpatterns = [
     path('patients/<int:patient_id>/edit/',views.Edit_patient.as_view(),name='edit_patient'),
     path('patients/<int:patient_id>/delete/',views.Delete_patient.as_view(),name='delete_patient'),
     path('patients/<int:patient_id>/add_media/',views.add_media,name='add_media'),
+    path('patients/<int:patient_id>/<int:photo_id>/delete_entire_media/',views.Delete_entire_media.as_view(),name='delete_entire_media'),
     path('patients/<int:patient_id>/<int:photo_id>/edit_media/',views.Edit_media.as_view(),name='edit_media'),
     path('patients/<int:patient_id>/<int:photo_id>/delete/',views.delete_media,name='delete_media'),
     path('patients/<int:patient_id>/make_pill/',views.create_pill,name='make_pill'),

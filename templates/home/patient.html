@@ -61,6 +61,8 @@ Patient
                     {{photo.add_at}}
                     <br>
                     <a href="{%url 'edit_media' patient.id photo.id%}">Edit</a>
+                    <br>
+                    <a href="{%url 'delete_entire_media' patient.id photo.id%}">Delete</a>
                 </div>
 
 
