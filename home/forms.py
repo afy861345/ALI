@@ -22,8 +22,10 @@ class Patient_form(forms.ModelForm):
             'name','age','gender','address','visits','visit_date'
         ]
 class Visit_form(forms.ModelForm):
+    date=forms.DateField(widget=forms.DateInput())
     image=forms.ImageField(widget=forms.FileInput(),required=False)
     file=forms.FileField(widget=forms.FileInput(),required=False)
+    
     class Meta:
         model=Visit
         fields=[
@@ -35,7 +37,7 @@ class Media_form(forms.ModelForm):
     class Meta:
         model=Photo
         fields=[
-            'images','file'
+            'images','file','add_at'
         ]
 class News_form(forms.ModelForm):
     name=forms.CharField(widget=forms.TextInput(

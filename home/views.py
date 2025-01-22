@@ -89,7 +89,8 @@ class New_visit(View):
     def render(self,request,form):
         return render(request,"home/new_visit.html",{'form':form})
     def post(self, request,**kwargs):
-        date=strftime("%Y-%m-%d")
+        # date=strftime("%Y-%m-%d")
+        date=request.POST.get('date')
         id=self.kwargs['patient_id']
         patient=get_object_or_404(Patient_Model,pk=id)
         try:
@@ -107,13 +108,13 @@ class New_visit(View):
                     new_visit.patient.add(patient)
                     patient.visits +=1
                     patient.save()
-                    photo=Photo.objects.create(images=image,file=file,patient=patient,visit=new_visit)
+                    photo=Photo.objects.create(images=image,file=file,patient=patient,visit=new_visit,add_at=date)
                 else:
                     if visit not in patient.visit.all():
                         patient.visits +=1
                         patient.save()
                         visit.patient.add(patient)
-                        photo=Photo.objects.create(images=image,file=file,patient=patient,visit=visit)
+                        photo=Photo.objects.create(images=image,file=file,patient=patient,visit=visit,add_at=date)
                 return redirect('patient',patient.id)
         return self.render(request,form)
     def get(self,request,**kwargs):
@@ -159,24 +160,39 @@ class New_news(CreateView):
         news.save()
         return redirect("main")
 def add_media(request,patient_id):
-    date=strftime("%Y-%m-%d")
+    # date=strftime("%Y-%m-%d")
+    date=request.POST.get('add_at')
+    print(date)
     patient=get_object_or_404(Patient_Model,pk=patient_id)
-    visit=get_object_or_404(Visit,date=date,patient__id=patient_id)#to go from son __
+    try:
+        visit=get_object_or_404(Visit,date=date)#to go from son __
+    except:
+        visit=None
     if request.method=="POST":
         form=Media_form(request.POST,request.FILES)#should add post & files
         if form.is_valid():
-            media=form.save(commit=False)
-            media.patient=patient
-            media.visit=visit
-            media.added_at=timezone.now()
-            media.save()
-            return redirect('patient',patient.id)
-
+            if visit is None:
+                new_visit=Visit.objects.create(date=date)
+                new_visit.patient.add(patient)
+                media=form.save(commit=False)
+                media.patient=patient
+                media.visit=new_visit
+                media.added_at=timezone.now()
+                media.save()
+                return redirect('patient',patient.id)
+            else:
+                visit.patient.add(patient)
+                visit.save()
+                media=form.save(commit=False)
+                media.patient=patient
+                media.visit=visit
+                media.added_at=timezone.now()
+                media.save()
+                return redirect('patient',patient.id)
     else:
         form=Media_form()
     return render(request,'home/add_media.html',{'form':form})
 class Edit_media(UpdateView):
-
     model=Photo
     form_class=Media_form
     pk_url_kwarg='photo_id'
@@ -189,10 +205,10 @@ class Edit_media(UpdateView):
         photo=self.get_object()
         photo_id=photo.id
         patient=photo.patient
-        visit=get_object_or_404(Visit,date=date,patient__id=patient.id)
+        # visit=get_object_or_404(Visit,date=date,patient__id=patient.id)
         new_photo=form.save(commit=False)
         new_photo.patient=patient
-        new_photo.added_at=timezone.now()
+        # new_photo.added_at=timezone.now()
         new_photo.save()
         return redirect('patient',patient.id)
         #or
