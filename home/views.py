@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from .forms import Topic_form,Post_form,Patient_form,News_form,Visit_form,Media_form
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import View,CreateView,UpdateView,ListView,DeleteView
 from django.utils import timezone
@@ -299,6 +300,8 @@ def create_pill(request,patient_id):
             y-=30
         c.showPage()
         c.save()
+        messages.success(request,'Pdf saved successfully')
+        return redirect('patient',patient_id)
     return render (request,'home/make_pill.html',{'patient':patient})
 def download_file(request,patient_id):
     path=request.GET['path']

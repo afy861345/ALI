@@ -53,7 +53,8 @@ Patient
                 <div class="col-6">
                     <!-- should ad if to prevent photo has no immages -->
                     {%if photo.images%}
-                    <a href="{%url 'download_image' patient.id %}?path={{photo.images}}"><img class="w-75" src="{{photo.images.url}}" alt="{{photo.add_at}}"></a>
+                    <a href="{%url 'download_image' patient.id %}?path={{photo.images}}"><img class="w-75"
+                            src="{{photo.images.url}}" alt="{{photo.add_at}}"></a>
                     {%endif%}
                     <a href="{%url 'download_file' patient.id %}?path={{photo.file}}">{{photo.file}}</a>
                 </div>
@@ -64,12 +65,21 @@ Patient
                     <br>
                     <a href="{%url 'delete_entire_media' patient.id photo.id%}">Delete</a>
                 </div>
-
-
             </div>
+            <br>
+
         </div>
 
     </div>
+    {%endfor%}
+  
+   
+</div>
+<div>
+    {%for message in messages%}
+    {%if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+    <p id="terminated-alert" class="alert alert-success">{{message}}</p>
+    {%endif%}
     {%endfor%}
 </div>
 {%endblock%}
